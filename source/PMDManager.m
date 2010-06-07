@@ -3,7 +3,6 @@
 //  PMDemo
 //
 //  Created by Casey Fleser on 6/2/10.
-//  Copyright 2010 Griffin Technology, Inc. All rights reserved.
 //
 
 #import "PMDManager.h"
@@ -37,7 +36,7 @@ static void DeviceAdded(
 	while ((obj = IOIteratorNext(inIterator))) {
 		result = IOServiceWaitQuiet(obj, &waitTime);		// fix for radar://5474691
 		if (result != kIOReturnSuccess || (device = [[PMDDevice alloc] initWithService: obj]) == nil) {
-			// TODO: this does seem to on occasion even after the IOKit dictionary is stable 
+			// TODO: this does seem to happen on occasion even after the IOKit dictionary is stable 
 			NSLog(@"Failed to create object for devce");
 			IOObjectRelease(obj);
 		}
@@ -65,8 +64,8 @@ static void DeviceRemoved(
 
 @implementation PMDManager
 
-@synthesize eventActive = _eventActive;
 @synthesize lastEvent = _lastEvent;
+@synthesize eventActive = _eventActive;
 
 + (PMDManager *) sharedManager
 {
@@ -274,7 +273,11 @@ static void DeviceRemoved(
 
 - (void) handleEvent: (PMDEvent *) inEvent
 {
+	self.eventActive = YES;
+	
 	self.lastEvent = [inEvent description];
+
+	self.eventActive = NO;
 }
 
 @end

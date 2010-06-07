@@ -3,7 +3,6 @@
 //  PMDemo
 //
 //  Created by Casey Fleser on 6/2/10.
-//  Copyright 2010 Griffin Technology, Inc. All rights reserved.
 //
 
 #import "PMDDevice.h"
@@ -91,7 +90,7 @@ void PowerMateCallbackFunction(
 		[self initHIDInterface];
 		[self initDeviceInterface];
 
-		if (_usbDevice != nil && _hidDevice != nil) {
+		if (_usbDevice != NULL && _hidDevice != NULL) {
 			if ([self openAndSetInterrupt] == kIOReturnSuccess) {
 				self.name = [NSString stringWithFormat: @"PowerMate %ld", [[PMDManager sharedManager] countOfDevices] + 1];
 
@@ -100,13 +99,13 @@ void PowerMateCallbackFunction(
 		}
 		
 		if (!_initComplete) {
-			if (_usbDevice != nil) {
+			if (_usbDevice != NULL) {
 				(*_usbDevice)->Release(_usbDevice);
-				_usbDevice = nil;
+				_usbDevice = NULL;
 			}
-			if (_hidDevice != nil) {
+			if (_hidDevice != NULL) {
 				(*_hidDevice)->Release(_hidDevice);
-				_hidDevice = nil;
+				_hidDevice = NULL;
 			}
 			
 			IOObjectRelease(_serviceID);
@@ -119,7 +118,7 @@ void PowerMateCallbackFunction(
 
 - (void) initHIDInterface
 {
-    IOCFPlugInInterface		**iodev = nil;
+    IOCFPlugInInterface		**iodev = NULL;
 	IOReturn				result;
     SInt32					score;
 	
@@ -131,7 +130,7 @@ void PowerMateCallbackFunction(
 		if ((*iodev)->QueryInterface(iodev, CFUUIDGetUUIDBytes(kIOHIDDeviceInterfaceID122), (LPVOID) &hidDeviceInterface) == kIOReturnSuccess)
 			_hidDevice = hidDeviceInterface;
 
-		if (iodev != nil)
+		if (iodev != NULL)
 			(*iodev)->Release(iodev);
 	}
 }
@@ -139,14 +138,14 @@ void PowerMateCallbackFunction(
 - (void) initDeviceInterface
 {
 	CFMutableDictionaryRef  matchingDict;
-	IOCFPlugInInterface		**iodev = nil;
+	IOCFPlugInInterface		**iodev = NULL;
 	io_iterator_t			deviceIterator;
 	io_object_t				usbDevice;
 	IOReturn				result;
 	SInt32					score;
 	
 	matchingDict = IOServiceMatching(kIOUSBDeviceClassName);
-	NSAssert(matchingDict != nil, @"IOServiceMatching kIOHIDDeviceKey failed");
+	NSAssert(matchingDict != NULL, @"IOServiceMatching kIOHIDDeviceKey failed");
 
 	CFDictionarySetValue(matchingDict, CFSTR(kUSBProductID), [NSNumber numberWithShort: kPowerMateProductID]);
 	CFDictionarySetValue(matchingDict, CFSTR(kUSBVendorID), [NSNumber numberWithShort: kPowerMateVendorID]);
@@ -154,7 +153,7 @@ void PowerMateCallbackFunction(
 	result = IOServiceGetMatchingServices(kIOMasterPortDefault, matchingDict, &deviceIterator);
 	NSAssert1(result == kIOReturnSuccess, @"IOServiceGetMatchingServices failed: %08x", result);
 	
-	while (IOIteratorIsValid(deviceIterator) && (usbDevice = IOIteratorNext(deviceIterator)) && _usbDevice == nil) {
+	while (IOIteratorIsValid(deviceIterator) && (usbDevice = IOIteratorNext(deviceIterator)) && _usbDevice == NULL) {
 		result = IOCreatePlugInInterfaceForService(usbDevice, kIOUSBDeviceUserClientTypeID, kIOCFPlugInInterfaceID, &iodev, &score);
 		if (result == kIOReturnSuccess) {
 			IOUSBDeviceInterface		**usbDeviceInterface;
@@ -171,12 +170,12 @@ void PowerMateCallbackFunction(
 				}
 			}
 			
-			if (_usbDevice == nil)
+			if (_usbDevice == NULL)
 				IOObjectRelease(usbDevice);
 
-			if (iodev != nil) {
+			if (iodev != NULL) {
 				(*iodev)->Release(iodev);
-				iodev = nil;
+				iodev = NULL;
 			}
 		}
 	}
@@ -216,14 +215,14 @@ void PowerMateCallbackFunction(
 
 - (void) shutdown
 {
-	if (_hidDevice != nil) {
+	if (_hidDevice != NULL) {
 		(*_hidDevice)->close(_hidDevice);
 		(*_hidDevice)->Release(_hidDevice);
-		_hidDevice = nil;
+		_hidDevice = NULL;
 	}
-	if (_usbDevice != nil) {
+	if (_usbDevice != NULL) {
 		(*_usbDevice)->Release(_usbDevice);
-		_usbDevice = nil;
+		_usbDevice = NULL;
 	}
 }
 
@@ -396,7 +395,7 @@ void PowerMateCallbackFunction(
 		NSUInteger		modifiers = [NSEvent modifierFlags];
 		NSUInteger		eventType;
 		NSUInteger		eventModifiers = 0;
-		PMDEvent			*devEvent;
+		PMDEvent		*devEvent;
 		
 		if (modifiers & NSCommandKeyMask)
 			eventModifiers |= ePowerMateModifier_Command;

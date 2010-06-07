@@ -3,7 +3,6 @@
 //  PMDemo
 //
 //  Created by Casey Fleser on 6/2/10.
-//  Copyright 2010 Griffin Technology, Inc. All rights reserved.
 //
 
 #import "PMDEvent.h"
@@ -34,7 +33,7 @@ static UInt64	sActiveEventID = 0;
 		case ePowerMateAction_ButtonRelease:	eventName = @"Release     ";	break;
 		case ePowerMateAction_RotateLeft:		eventName = @"Rotate Left ";	break;
 		case ePowerMateAction_RotateRight:		eventName = @"Rotate Right";	break;
-		case ePowerMateAction_ButtonLongPress:	eventName = @"Long Press";		break;
+		case ePowerMateAction_ButtonLongPress:	eventName = @"Long Press  ";	break;
 		default:								eventName = @"Unknown     ";	break;
 	}
 	
