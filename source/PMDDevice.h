@@ -46,9 +46,9 @@
 - (UInt32)			locationID;
 - (NSString *)		locationName;
 
-@property (copy) NSString		*name;
-@property (assign) UInt64		activeEventID;
-@property (assign) CGFloat		brightness, pulseRate;
-@property (assign) BOOL			shouldPulse;
+@property (nonatomic, copy) NSString		*name;
+@property (nonatomic, assign) UInt64		activeEventID;
+@property (nonatomic, assign) CGFloat		brightness, pulseRate;
+@property (nonatomic, assign) BOOL			shouldPulse;
 
 @end

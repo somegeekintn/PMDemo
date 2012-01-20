@@ -83,7 +83,7 @@ static void DeviceRemoved(
 
 	@synchronized(self) {
 		if (manager == nil)
-		manager = sSharedManager = [super allocWithZone: inZone];
+			manager = sSharedManager = [super allocWithZone: inZone];
 	}
 
 	return manager;
@@ -120,7 +120,7 @@ static void DeviceRemoved(
     return NSUIntegerMax;
 }
  
-- (void) release
+- (oneway void) release
 {
 }
  
